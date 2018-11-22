@@ -81,9 +81,9 @@ class Simulator(model.Machine):
         (f, operands) = self.decode(opcode, operands, src)
 
         self.log("%s %s" % (opcode, ', '.join(
-            ['%s=%d' % (k, v) for (k, v) in operands.items()])))
+            ['%s=%d' % (k, v) for (k, v) in operands])))
 
-        f(self, **operands)
+        f(self, **dict(operands))
 
         self.log(self)
 

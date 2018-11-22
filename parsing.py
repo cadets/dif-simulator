@@ -21,7 +21,7 @@ def decode(opcode, operands, encoding, src):
 
     # We have the right number of operands: name the first n tokens and ignore
     # the comment token(s) at the end of the line.
-    return dict(zip(encoding, [int(o) for o in operands]))
+    return list(zip(encoding, [int(o) for o in operands]))
 
 
 def parse(line, src):
