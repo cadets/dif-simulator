@@ -2,6 +2,7 @@
 
 import argparse
 import instructions
+import logging
 import os.path
 import parsing
 import pprint
@@ -16,8 +17,13 @@ arg_parser.add_argument('-i', '--initial-state',
                         help='YAML file with initial state (e.g., registers)')
 arg_parser.add_argument('-o', '--output-state',
                         help='Output file for final state (YAML format)')
+arg_parser.add_argument('-v', '--verbose', action='store_true',
+                        help='Enable verbose simulation output')
 arg_parser.add_argument('script')
 args = arg_parser.parse_args()
+
+log_level = logging.DEBUG if args.verbose else logging.INFO
+logging.basicConfig(format='%(message)s', level=log_level)
 
 filename = args.script
 if not os.path.isfile(filename):
@@ -53,7 +59,7 @@ else:
 #
 # Create the simulator with the given initial state
 #
-sim = simulation.Simulator(state, instructions, log=print)
+sim = simulation.Simulator(state, instructions, log=logging)
 print('Starting simulation in state:\n%s' % sim)
 
 with open(filename, 'r') as script:

@@ -80,12 +80,12 @@ class Simulator(model.Machine):
     def execute(self, opcode, operands, src):
         (f, operands) = self.decode(opcode, operands, src)
 
-        self.log("%s %s" % (opcode, ', '.join(
+        self.log.info("%s %s" % (opcode, ', '.join(
             ['%s=%d' % (k, v) for (k, v) in operands])))
 
         f(self, **dict(operands))
 
-        self.log(self)
+        self.log.debug(self)
 
     def state(self):
         """

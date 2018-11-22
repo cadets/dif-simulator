@@ -55,7 +55,7 @@ following simulated execution:
 
 [source, terminal]
 ----
-# dsim -i initial-state.yaml script.difi
+# dsim --initial-state state.yaml --verbose script.difi
 Loaded initial state:
 {'integers': [3, 1, 2]}
 
