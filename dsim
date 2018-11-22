@@ -37,8 +37,12 @@ state_file = args.initial_state
 if state_file:
     with open(state_file) as f:
         state = yaml.safe_load(f)
-        pretty = pprint.pformat(state, indent=2, compact=True)
-        print('Loaded initial state:\n%s\n' % pretty)
+
+        print('Loaded initial state:')
+        if args.verbose:
+            yaml.dump(state, sys.stdout)
+        else:
+            print(pprint.pformat(state, indent=2, compact=True))
 
     if not state:
         sys.stderr.write("Failed to load initial state from %s" % state_file)
@@ -84,10 +88,14 @@ with open(filename, 'r') as script:
 #
 # Finally, output the simulator's final state
 #
-state = sim.state()
+y = yaml.dump(sim.state())
+
 print('\nFinal simulation state:')
-pprint.pprint(state, indent=2, compact=False)
+if args.verbose:
+    print(y)
+else:
+    pprint.pprint(state, indent=2, compact=True)
 
 if args.output_state:
     with open(args.output_state, 'w') as f:
-        yaml.dump(state, f)
+        f.write(y)
