@@ -64,19 +64,19 @@ Registers:
   r6:  undefined
   r7:  undefined
 MOV rs1=0, rs2=0, rd=1
-Registers:                                                                      
-  r0:  0x0000000000000000                                                       
-  r1:  0x0000000000000000                                                       
-  r2:  undefined                                                                
-  r3:  undefined                                                                
-  r4:  undefined                                                                
-  r5:  undefined                                                                
-  r6:  undefined                                                                
+Registers:
+  r0:  0x0000000000000000
+  r1:  0x0000000000000000
+  r2:  undefined
+  r3:  undefined
+  r4:  undefined
+  r5:  undefined
+  r6:  undefined
   r7:  undefined
 SETX rd=2, index=0
-Registers:                                                                      
-  r0:  0x0000000000000000                                                       
-  r1:  0x0000000000000000                                                       
+Registers:
+  r0:  0x0000000000000000
+  r1:  0x0000000000000000
   r2:  0x0000000000000003
   r3:  undefined
   r4:  undefined
