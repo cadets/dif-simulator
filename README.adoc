@@ -7,7 +7,30 @@ these instructions can be simulated to produce a final system state.
 Intermediate states (e.g., register values) can also be inspected.
 
 
-== Usage
+== Printer
+
+The `print` script can be used to output DIF instruction pseudocode or to
+interpret streams of DIF instructions ("what does that third operand mean?").
+
+[source, terminal]
+----
+$ ./print pseudocode LDGS
+def ldgs(state, imm, rd):
+    state.registers[rd] = state.variables.globals[imm]
+
+$ ./print script script.difi
+     1  #
+     2  # An example of a simple DTrace instruction stream
+     3  #
+     4
+     5  MOV 0 0 1       # rs1=0, rs2=0,  rd=1
+     6  SETX 2 0        #  rd=2, index=0
+     7  CMP 1 2 0       # rs1=1, rs2=2,  rd=0
+----
+
+
+
+== Simulator
 
 Run the `simulate` script with
 optional arguments for <<State description,input/output states>>
