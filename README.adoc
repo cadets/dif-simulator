@@ -14,17 +14,17 @@ interpret streams of DIF instructions ("what does that third operand mean?").
 
 [source, python]
 ----
-$ ./print pseudocode LDGS
+# ./print pseudocode LDGS
 #
 # LDGS: encoding W
 #
 def ldgs(state, imm, rd):
     state.registers[rd] = state.variables.globals[imm]
 
-$ ./print pseudocode --all -o all_instructions
+# ./print pseudocode --all -o all_instructions
 Writing to 'all_instructions': CMP LDGS LDUB MOV SETX
 
-$ ./print script script.difi
+# ./print script script.difi
      1  #
      2  # An example of a simple DTrace instruction stream
      3  #
@@ -55,7 +55,7 @@ following simulated execution:
 
 [source, terminal]
 ----
-$  ./simulate -i initial-state.yaml script.difi
+#  ./simulate -i initial-state.yaml script.difi
 Loaded initial state:
 {'integers': [3, 1, 2]}
 
