@@ -74,6 +74,7 @@ def print_script(args):
                 encoding = instructions.encodings[encoding_name]
                 named = parsing.decode(opcode, operands, encoding, src)
 
+                out.write("# Encoding '%s': " % encoding_name)
                 out.write(', '.join(['%3s=%d' % (k, v) for (k, v) in named]))
 
             out.write('\n')

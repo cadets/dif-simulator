@@ -29,9 +29,9 @@ $ ./print script script.difi
      2  # An example of a simple DTrace instruction stream
      3  #
      4
-     5  MOV 0 0 1       # rs1=0, rs2=0,  rd=1
-     6  SETX 2 0        #  rd=2, index=0
-     7  CMP 1 2 0       # rs1=1, rs2=2,  rd=0
+     5  MOV 0 0 1       # Encoding 'R': rs1=0, rs2=0,  rd=1
+     6  SETX 2 0        # Encoding 'Index':  rd=2, index=0
+     7  CMP 1 2 0       # Encoding 'R': rs1=1, rs2=2,  rd=0
 ----
 
 
