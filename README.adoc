@@ -9,22 +9,22 @@ Intermediate states (e.g., register values) can also be inspected.
 
 == Printer
 
-The `print` script can be used to output DIF instruction pseudocode or to
+The `dprint` script can be used to output DIF instruction pseudocode or to
 interpret streams of DIF instructions ("what does that third operand mean?").
 
 [source, python]
 ----
-# ./print pseudocode LDGS
+# dprint pseudocode LDGS
 #
 # LDGS: encoding W
 #
 def ldgs(state, imm, rd):
     state.registers[rd] = state.variables.globals[imm]
 
-# ./print pseudocode --all -o all_instructions
+# dprint pseudocode --all -o all_instructions
 Writing to 'all_instructions': CMP LDGS LDUB MOV SETX
 
-# ./print script script.difi
+# dprint script script.difi
      1  #
      2  # An example of a simple DTrace instruction stream
      3  #
@@ -38,7 +38,7 @@ Writing to 'all_instructions': CMP LDGS LDUB MOV SETX
 
 == Simulator
 
-Run the `simulate` script with
+Run the `dsim` script with
 optional arguments for <<State description,input/output states>>
 and a mandatory <<Textual DIF,DIF "script">> argument.
 For example, running the script:
@@ -55,7 +55,7 @@ following simulated execution:
 
 [source, terminal]
 ----
-#  ./simulate -i initial-state.yaml script.difi
+# dsim -i initial-state.yaml script.difi
 Loaded initial state:
 {'integers': [3, 1, 2]}
 
