@@ -64,7 +64,7 @@ else:
 # Create the simulator with the given initial state
 #
 sim = simulation.Simulator(state, instructions, log=logging)
-print('Starting simulation in state:\n%s' % sim)
+logging.debug('Starting simulation in state:\n%s' % sim)
 
 with open(filename, 'r') as script:
     line_number = 0
