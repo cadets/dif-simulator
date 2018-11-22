@@ -12,7 +12,7 @@ Intermediate states (e.g., register values) can also be inspected.
 The `print` script can be used to output DIF instruction pseudocode or to
 interpret streams of DIF instructions ("what does that third operand mean?").
 
-[source, terminal]
+[source, python]
 ----
 $ ./print pseudocode LDGS
 #
