@@ -18,6 +18,9 @@ $ ./print pseudocode LDGS
 def ldgs(state, imm, rd):
     state.registers[rd] = state.variables.globals[imm]
 
+$ ./print pseudocode --all -o all_instructions
+Writing to 'all_instructions': CMP LDGS LDUB MOV SETX
+
 $ ./print script script.difi
      1  #
      2  # An example of a simple DTrace instruction stream

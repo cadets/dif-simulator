@@ -27,10 +27,13 @@ def print_pseudocode(args):
             # It's OK if the directory already exists
             pass
 
+        sys.stdout.write("Writing to '%s':" % args.output)
+
     for opcode in to_print:
         if args.output == '-':
             out = sys.stdout
         else:
+            sys.stdout.write(' %s' % opcode)
             out = open(os.path.join(args.output, '%s.py' % opcode), 'w')
 
         (f, encoding) = instructions.instructions[opcode]
