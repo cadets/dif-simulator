@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+
+import argparse
+import instructions
+import os.path
+import parsing
+import pprint
+import simulation
+import sys
+import yaml
+
+# Parse command-line arguments and ensure that we are being passed a
+# valid input file.
+arg_parser = argparse.ArgumentParser(prog='simulate')
+arg_parser.add_argument('-i', '--initial-state',
+                        help='YAML file with initial state (e.g., registers)')
+arg_parser.add_argument('-o', '--output-state',
+                        help='Output file for final state (YAML format)')
+arg_parser.add_argument('script')
+args = arg_parser.parse_args()
+
+filename = args.script
+if not os.path.isfile(filename):
+    sys.stderr.write("Error: '%s' is not a file\n" % filename)
+    sys.exit(1)
+
+#
+# Load initial state, if given. Otherwise, construct an empty initial state
+#
+state_file = args.initial_state
+if state_file:
+    with open(state_file) as f:
+        state = yaml.safe_load(f)
+        pretty = pprint.pformat(state, indent=2, compact=True)
+        print('Loaded initial state:\n%s\n' % pretty)
+
+    if not state:
+        sys.stderr.write("Failed to load initial state from %s" % state_file)
+
+else:
+    state = {
+        # This state has no memory mappings
+        'memory': {},
+
+        # No defined register values: r0 will be 0, others will be undefined
+        'registers': {},
+
+        # Both the integer and string tables are empty
+        'integers': [],
+        'strings': [],
+    }
+
+#
+# Create the simulator with the given initial state
+#
+sim = simulation.Simulator(state, instructions, log=print)
+print('Starting simulation in state:\n%s' % sim)
+
+with open(filename, 'r') as script:
+    line_number = 0
+
+    try:
+        for line in script:
+            line_number += 1
+            src = (filename, line_number)
+
+            (opcode, operands) = parsing.parse(line, src)
+            if not opcode:
+                continue
+
+            sim.execute(opcode, operands, src)
+
+    except simulation.SimulationError as e:
+        print('\n%s:%d: error: %s' % (filename, line_number, e))
+        print(line)
+        print('Simulator state:\n%s\n' % e.simulator)
+
+#
+# Finally, output the simulator's final state
+#
+state = sim.state()
+print('\nFinal simulation state:')
+pprint.pprint(state, indent=2, compact=False)
+
+if args.output_state:
+    with open(args.output_state, 'w') as f:
+        yaml.dump(state, f)
