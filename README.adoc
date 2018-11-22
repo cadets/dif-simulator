@@ -15,6 +15,9 @@ interpret streams of DIF instructions ("what does that third operand mean?").
 [source, terminal]
 ----
 $ ./print pseudocode LDGS
+#
+# LDGS: encoding W
+#
 def ldgs(state, imm, rd):
     state.registers[rd] = state.variables.globals[imm]
 

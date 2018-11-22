@@ -36,7 +36,9 @@ def print_pseudocode(args):
             sys.stdout.write(' %s' % opcode)
             out = open(os.path.join(args.output, '%s.py' % opcode), 'w')
 
-        (f, encoding) = instructions.instructions[opcode]
+        (f, encoding_name) = instructions.instructions[opcode]
+
+        out.write('#\n# %s: encoding %s\n#\n' % (opcode, encoding_name))
         out.write('%s\n' % inspect.getsource(f))
 
 
@@ -68,10 +70,10 @@ def print_script(args):
             (opcode, operands) = parsing.parse(line, src)
 
             if opcode:
-                (f, encoding) = instructions.instructions[opcode]
+                (f, encoding_name) = instructions.instructions[opcode]
+                encoding = instructions.encodings[encoding_name]
                 named = parsing.decode(opcode, operands, encoding, src)
 
-                out.write('# ')
                 out.write(', '.join(['%3s=%d' % (k, v) for (k, v) in named]))
 
             out.write('\n')
