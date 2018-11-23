@@ -149,3 +149,34 @@ Note that, although a `MOV` instruction only has two logical operands (`rs` and
 Our textual DIF encoding can express anything can be expressed in DIF's binary
 encoding, even if it is semantically invalid.
 This is useful for exploring corner cases of DIF semantics.
+
+
+== Tests
+
+The simulator comes with a small but growing set of tests.
+These can be invoked with the
+http://llvm.org/docs/CommandGuide/lit.html[LLVM Integrated Tester (`lit`)]
+test driver; test expectations are checked with LLVM's
+https://www.llvm.org/docs/CommandGuide/FileCheck.html[`FileCheck`] utility.
+`lit` can be installed from PyPI as a standalone application
+(`pip install lit`), but `FileCheck` is currently only built along with LLVM.
+If you have an LLVM package installed, you can probably set your `PATH` to
+include something like `/usr/local/llvm70/bin` in order to find `FileCheck`.
+
+Once you have `lit` and `FileCheck` in your `PATH`, you should be able to run
+the test suite as follows:
+
+[source, terminal]
+----
+$ lit -s tests
+[ prints a progress bar followed by: ]
+Testing Time: 0.42s
+  Expected Passes    : 1
+$ lit -v tests
+-- Testing: 1 tests, 1 threads --
+PASS: dif-simulator :: MOV.difi (1 of 1)
+[ plus another line for every passed or failed tests ]
+[ followed by details for any failed tests ]
+Testing Time: 0.43s
+  Expected Passes    : 1
+----
