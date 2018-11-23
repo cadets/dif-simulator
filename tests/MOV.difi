@@ -1,0 +1,41 @@
+#
+# RUN: %sim %s -o %t.final-state.yaml > %t.output 2> %t.log
+# RUN: %check -input-file %t.log -check-prefix CHECK-LOG %s
+# RUN: %check -input-file %t.final-state.yaml -check-prefix CHECK-FINAL %s
+#
+
+# CHECK-LOG: Starting simulation in state:
+# CHECK-LOG:        r0:  0x0000000000000000
+# CHECK-LOG-NEXT:   r1:  undefined
+# CHECK-LOG-NEXT:   r2:  undefined
+# CHECK-LOG-NEXT:   r3:  undefined
+# CHECK-LOG-NEXT:   r4:  undefined
+# CHECK-LOG-NEXT:   r5:  undefined
+# CHECK-LOG-NEXT:   r6:  undefined
+# CHECK-LOG-NEXT:   r7:  undefined
+
+# CHECK-LOG: MOV rs1=0, rs2=0, rd=1
+MOV 0 0 1
+
+# CHECK-LOG:        r0:  0x0000000000000000
+# CHECK-LOG-NEXT:   r1:  0x0000000000000000
+# CHECK-LOG-NEXT:   r2:  undefined
+# CHECK-LOG-NEXT:   r3:  undefined
+# CHECK-LOG-NEXT:   r4:  undefined
+# CHECK-LOG-NEXT:   r5:  undefined
+# CHECK-LOG-NEXT:   r6:  undefined
+# CHECK-LOG-NEXT:   r7:  undefined
+
+# CHECK-LOG:  MOV rs1=1, rs2=0, rd=2
+MOV 1 0 2
+
+# CHECK-LOG:        r0:  0x0000000000000000
+# CHECK-LOG-NEXT:   r1:  0x0000000000000000
+# CHECK-LOG-NEXT:   r2:  0x0000000000000000
+# CHECK-LOG-NEXT:   r3:  undefined
+# CHECK-LOG-NEXT:   r4:  undefined
+# CHECK-LOG-NEXT:   r5:  undefined
+# CHECK-LOG-NEXT:   r6:  undefined
+# CHECK-LOG-NEXT:   r7:  undefined
+
+# CHECK-FINAL: registers: {1: 0, 2: 0}
