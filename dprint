@@ -35,6 +35,20 @@ import os
 import sys
 
 
+def opcodes(args):
+    """
+    Generate (and validate) a list of instructions, given arguments that can
+    include `--all` or a list of opcodes.
+    """
+
+    instrs = instructions.instructions
+
+    if args.all:
+        return ( (op,) + instrs[op] for op in sorted(instrs.keys()) )
+    else:
+        return ( (op,) + instrs[op] for op in args.instruction )
+
+
 def print_pseudocode(args):
     """
     Print the pseudocode for a set of instructions, either to stdout or to a
@@ -42,12 +56,6 @@ def print_pseudocode(args):
     """
 
     import inspect
-
-    # Which instructions do we want to print?
-    if args.all:
-        to_print = sorted(instructions.instructions.keys())
-    else:
-        to_print = args.instruction
 
     if args.output != '-':
         try:
@@ -58,14 +66,12 @@ def print_pseudocode(args):
 
         sys.stdout.write("Writing to '%s':" % args.output)
 
-    for opcode in to_print:
+    for (opcode, f, encoding_name) in opcodes(args):
         if args.output == '-':
             out = sys.stdout
         else:
             sys.stdout.write(' %s' % opcode)
             out = open(os.path.join(args.output, '%s.py' % opcode), 'w')
-
-        (f, encoding_name) = instructions.instructions[opcode]
 
         out.write('#\n# %s: encoding %s\n#\n' % (opcode, encoding_name))
         out.write('%s\n' % inspect.getsource(f))
