@@ -132,5 +132,12 @@ script.add_argument('-o', '--output', default='-', help='Output file')
 script.add_argument('source', help='Script file to print')
 script.set_defaults(func=print_script)
 
-args = arg_parser.parse_args()
-args.func(args)
+try:
+    args = arg_parser.parse_args()
+    f = args.func
+
+except:
+    arg_parser.print_help()
+    sys.exit(1)
+
+f(args)
