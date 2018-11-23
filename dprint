@@ -49,6 +49,15 @@ def opcodes(args):
         return ( (op,) + instrs[op] for op in sorted(instrs.keys()) )
 
 
+def print_instructions(args):
+    """
+    Print a list of supported DIF instructions and their encodings.
+    """
+
+    for (opcode, f, encoding_name) in opcodes(args):
+        print("%-8s  Encoding '%s'" % (opcode, encoding_name))
+
+
 def print_pseudocode(args):
     """
     Print the pseudocode for a set of instructions, either to stdout or to a
@@ -123,6 +132,11 @@ representations of a DIF instruction stream.
 
 subparsers = arg_parser.add_subparsers(title='things we can print',
                                        help='what we want to pretty-print')
+
+instructs = subparsers.add_parser('instructions')
+instructs.add_argument('instruction', nargs='*',
+                        help='Instructions to print (or else all)')
+instructs.set_defaults(func=print_instructions)
 
 pseudocode = subparsers.add_parser('pseudocode')
 pseudocode.add_argument('-o', '--output', default='-',
