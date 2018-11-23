@@ -21,7 +21,7 @@ interpret streams of DIF instructions ("what does that third operand mean?").
 def ldgs(state, imm, rd):
     state.registers[rd] = state.variables.globals[imm]
 
-# dprint pseudocode --all -o all_instructions
+# dprint pseudocode -o all_instructions
 Writing to 'all_instructions': CMP LDGS LDUB MOV SETX
 
 # dprint script script.difi

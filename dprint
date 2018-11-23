@@ -38,15 +38,15 @@ import sys
 def opcodes(args):
     """
     Generate (and validate) a list of instructions, given arguments that can
-    include `--all` or a list of opcodes.
+    include a list of opcodes or else assume we want all of them.
     """
 
     instrs = instructions.instructions
 
-    if args.all:
-        return ( (op,) + instrs[op] for op in sorted(instrs.keys()) )
-    else:
+    if args.instruction:
         return ( (op,) + instrs[op] for op in args.instruction )
+    else:
+        return ( (op,) + instrs[op] for op in sorted(instrs.keys()) )
 
 
 def print_pseudocode(args):
@@ -125,12 +125,10 @@ subparsers = arg_parser.add_subparsers(title='things we can print',
                                        help='what we want to pretty-print')
 
 pseudocode = subparsers.add_parser('pseudocode')
-pseudocode.add_argument('-a', '--all', action='store_true',
-                        help='Print pseudocode for all instructions')
 pseudocode.add_argument('-o', '--output', default='-',
                         help='Output directory for source files')
 pseudocode.add_argument('instruction', nargs='*',
-                        help='Instructions to print (if not --all)')
+                        help='Instructions to print (or else all)')
 pseudocode.set_defaults(func=print_pseudocode)
 
 script = subparsers.add_parser('script')
