@@ -1,0 +1,13 @@
+#
+# RUN: %print script %s > %t
+# RUN: %check %s -input-file %t
+#
+
+# CHECK:  {{[0-9]+}}   MOV 0 0 1    # Encoding 'R': rs1=0, rs2=0, rd=1
+MOV 0 0 1
+
+# CHECK:  {{[0-9]+}}   SETX 2 0     # Encoding 'Index': rd=2, index=0
+SETX 2 0
+
+# CHECK:  {{[0-9]+}}   CMP 1 2 0    # Encoding 'R': rs1=1, rs2=2, rd=0
+CMP 1 2 0
