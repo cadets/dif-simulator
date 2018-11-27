@@ -82,8 +82,8 @@ def print_pseudocode(args):
             sys.stdout.write(' %s' % opcode)
             out = open(os.path.join(args.output, '%s.py' % opcode), 'w')
 
-        out.write('#\n# %s: encoding %s\n#\n' % (opcode, f.encoding.name))
-        out.write('%s\n' % inspect.getsource(f))
+        out.write(inspect.getsource(f))
+        out.write('\n')
 
 
 def print_script(args):
