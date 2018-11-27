@@ -18,7 +18,8 @@ interpret streams of DIF instructions ("what does that third operand mean?").
 #
 # LDGS: encoding W
 #
-def ldgs(state, imm, rd):
+@encodings.W
+def LDGS(state, imm, rd):
     state.registers[rd] = state.variables.globals[imm]
 
 # dprint pseudocode -o all_instructions
