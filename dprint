@@ -31,6 +31,7 @@
 
 import argparse
 import instructions
+import latex
 import os
 import sys
 
@@ -56,6 +57,36 @@ def print_instructions(args):
 
     for (opcode, f) in opcodes(args):
         print("%-8s  Encoding '%s'" % (opcode, f.encoding.name))
+
+
+def print_latex(args):
+    """
+    Print a LaTeX description of DIF instructions.
+
+    The emitted LaTeXUse a format
+    used by the OpenDTrace Specification.
+    """
+
+    import inspect
+
+    if args.output != '-':
+        try:
+            os.mkdir(args.output)
+        except FileExistsError:
+            # It's OK if the directory already exists
+            pass
+
+        sys.stdout.write("Writing to '%s':" % args.output)
+
+    for (opcode, f) in opcodes(args):
+        # Where shall we write our output?
+        if args.output == '-':
+            out = sys.stdout
+        else:
+            sys.stdout.write(' %s' % opcode)
+            out = open(os.path.join(args.output, '%s.tex' % opcode), 'w')
+
+        latex.write(out, opcode, f)
 
 
 def print_pseudocode(args):
@@ -136,6 +167,13 @@ instructs = subparsers.add_parser('instructions')
 instructs.add_argument('instruction', nargs='*',
                        help='Instructions to print (or else all)')
 instructs.set_defaults(func=print_instructions)
+
+latex_args = subparsers.add_parser('latex')
+latex_args.add_argument('instruction', nargs='*',
+                        help='Instructions to print (or else all)')
+latex_args.add_argument('-o', '--output', default='-',
+                        help='Output directory for LaTeX files')
+latex_args.set_defaults(func=print_latex)
 
 pseudocode = subparsers.add_parser('pseudocode')
 pseudocode.add_argument('-o', '--output', default='-',
