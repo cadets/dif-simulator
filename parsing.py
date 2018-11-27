@@ -7,21 +7,23 @@ def decode(opcode, operands, encoding, src):
     a dictionary of named operands (e.g., {'rs1': 4, 'rs2': 2, 'rd': 3}).
     """
 
+    operand_names = encoding.operand_names
+
     # Are there enough operands?
-    if len(operands) < len(encoding):
+    if len(operands) < len(operand_names):
         raise ParseError(opcode, "need %d operands, got %d ('%s')" % (
-            len(encoding), len(operands), ' '.join(operands)), *src)
+            len(operand_names), len(operands), ' '.join(operands)), *src)
 
     # If there are more than the expected number of operands, the remainder had
     # better be comments.
-    if (len(operands) > len(encoding) and
-            not operands[len(encoding)-1].startswith('#')):
+    if (len(operands) > len(operand_names) and
+            not operands[len(operand_names)-1].startswith('#')):
         raise ParseError(opcode, "expected %d operands, not '%s')" % (
-            len(encoding), ' '.join(operands)), *src)
+            len(operand_names), ' '.join(operands)), *src)
 
     # We have the right number of operands: name the first n tokens and ignore
     # the comment token(s) at the end of the line.
-    return list(zip(encoding, [int(o) for o in operands]))
+    return list(zip(operand_names, [int(o) for o in operands]))
 
 
 def parse(line, src):

@@ -20,9 +20,8 @@ class Machine:
         return Machine(self.mem.copy(), self.registers.copy())
 
     def decode(self, opcode, operands, src):
-        (f, encoding_name) = self.instructions.instructions[opcode]
-        encoding = self.instructions.encodings[encoding_name]
-        operands = parsing.decode(opcode, operands, encoding, src)
+        f = self.instructions.instructions[opcode]
+        operands = parsing.decode(opcode, operands, f.encoding, src)
 
         return (f, operands)
 

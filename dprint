@@ -44,9 +44,9 @@ def opcodes(args):
     instrs = instructions.instructions
 
     if args.instruction:
-        return ( (op,) + instrs[op] for op in args.instruction )
+        return ( (op,instrs[op]) for op in args.instruction )
     else:
-        return ( (op,) + instrs[op] for op in sorted(instrs.keys()) )
+        return ( (op,instrs[op]) for op in sorted(instrs.keys()) )
 
 
 def print_instructions(args):
@@ -54,8 +54,8 @@ def print_instructions(args):
     Print a list of supported DIF instructions and their encodings.
     """
 
-    for (opcode, f, encoding_name) in opcodes(args):
-        print("%-8s  Encoding '%s'" % (opcode, encoding_name))
+    for (opcode, f) in opcodes(args):
+        print("%-8s  Encoding '%s'" % (opcode, f.encoding.name))
 
 
 def print_pseudocode(args):
@@ -75,14 +75,14 @@ def print_pseudocode(args):
 
         sys.stdout.write("Writing to '%s':" % args.output)
 
-    for (opcode, f, encoding_name) in opcodes(args):
+    for (opcode, f) in opcodes(args):
         if args.output == '-':
             out = sys.stdout
         else:
             sys.stdout.write(' %s' % opcode)
             out = open(os.path.join(args.output, '%s.py' % opcode), 'w')
 
-        out.write('#\n# %s: encoding %s\n#\n' % (opcode, encoding_name))
+        out.write('#\n# %s: encoding %s\n#\n' % (opcode, f.encoding.name))
         out.write('%s\n' % inspect.getsource(f))
 
 
@@ -114,11 +114,10 @@ def print_script(args):
             (opcode, operands) = parsing.parse(line, src)
 
             if opcode:
-                (f, encoding_name) = instructions.instructions[opcode]
-                encoding = instructions.encodings[encoding_name]
-                named = parsing.decode(opcode, operands, encoding, src)
+                f = instructions.instructions[opcode]
+                named = parsing.decode(opcode, operands, f.encoding, src)
 
-                out.write("# Encoding '%s': " % encoding_name)
+                out.write("# Encoding '%s': " % f.encoding.name)
                 out.write(', '.join(['%3s=%d' % (k, v) for (k, v) in named]))
 
             out.write('\n')
