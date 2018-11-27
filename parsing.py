@@ -7,7 +7,7 @@ def decode(opcode, operands, encoding, src):
     a dictionary of named operands (e.g., {'rs1': 4, 'rs2': 2, 'rd': 3}).
     """
 
-    operand_names = encoding.operand_names
+    operand_names = list(encoding.operand_names())
 
     # Are there enough operands?
     if len(operands) < len(operand_names):
