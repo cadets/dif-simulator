@@ -44,9 +44,9 @@ def opcodes(args):
     instrs = instructions.instructions
 
     if args.instruction:
-        return ( (op,instrs[op]) for op in args.instruction )
+        return ((op.upper(), instrs[op.upper()]) for op in args.instruction)
     else:
-        return ( (op,instrs[op]) for op in sorted(instrs.keys()) )
+        return ((op, instrs[op]) for op in sorted(instrs.keys()))
 
 
 def print_instructions(args):
@@ -134,7 +134,7 @@ subparsers = arg_parser.add_subparsers(title='things we can print',
 
 instructs = subparsers.add_parser('instructions')
 instructs.add_argument('instruction', nargs='*',
-                        help='Instructions to print (or else all)')
+                       help='Instructions to print (or else all)')
 instructs.set_defaults(func=print_instructions)
 
 pseudocode = subparsers.add_parser('pseudocode')
